@@ -36,7 +36,7 @@ pico_sdk_init()
 # Add executable and source files
 add_executable(Hino_Sao_Paulo_OLED_matriz  
     play_musica.c
-
+    inc/ssd1306_i2c.c
 )
 
 # Set program name and version
@@ -51,8 +51,14 @@ pico_enable_stdio_usb(Hino_Sao_Paulo_OLED_matriz 0)
 target_link_libraries(Hino_Sao_Paulo_OLED_matriz pico_stdlib)
 
 # Link additional libraries for hardware_pwm (to fix missing pwm.h error)
-target_link_libraries(Hino_Sao_Paulo_OLED_matriz pico_stdlib hardware_pwm)
+target_link_libraries(Hino_Sao_Paulo_OLED_matriz pico_stdlib 
+    hardware_pwm
+    pico_multicore
+    hardware_timer
+    hardware_clocks
+)
 
+# Adicione a biblioteca ao linker
 target_link_libraries(Hino_Sao_Paulo_OLED_matriz pico_stdlib hardware_i2c)
 
 

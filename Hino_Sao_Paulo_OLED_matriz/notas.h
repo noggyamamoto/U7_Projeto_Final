@@ -16,9 +16,6 @@
 
 #define TAMANHO_MELODIA 76  // Número total de notas
 
-// Pino do buzzer
-#define PINO_BUZZER 21
-
 // Notas da melodia
 int melodia[] = {
     NOTE_Ab4, NOTE_Bb4, NOTE_C5, NOTE_Bb4, NOTE_Ab4, NOTE_F4, NOTE_Eb4, NOTE_Eb4,
