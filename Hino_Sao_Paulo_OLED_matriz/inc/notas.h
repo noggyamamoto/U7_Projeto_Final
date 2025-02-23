@@ -32,7 +32,7 @@ int melodia[] = {
     NOTE_Bb4, NOTE_Eb5, NOTE_Bb4, NOTE_Ab4, NOTE_Ab4 
 };
 
-// Duração de cada nota (quanto maior o valor, mais curta a duração)
+// Duração de cada nota
 int duracoes[] = {
     8, 4, 4, 4, 4, 4, 12, 12,
     4, 8, 4, 4, 4, 4, 4, 12, 12,
