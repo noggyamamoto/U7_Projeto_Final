@@ -1,16 +1,16 @@
+// Bibliotecas
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "hardware/pwm.h"
 #include "hardware/clocks.h"
-#include "notas.h"
 #include <string.h>
 #include <stdlib.h>
-#include <ctype.h>
-#include "pico/binary_info.h"
+#include "pico/multicore.h"
 #include "hardware/i2c.h"
+#include "inc/notas.h"
 #include "inc/ssd1306.h"
 #include "inc/ssd1306_i2c.h"
-#include "pico/multicore.h" // Biblioteca para multicore
+
 
 // Definição dos pinos
 const uint BUZZER = 21;        // Pino do buzzer
@@ -201,12 +201,10 @@ int main() {
 
             // Envia uma mensagem para o Core 1 para tocar a música
             multicore_fifo_push_blocking(1);
-
         
             // Exibe a imagem no display
             exibir_imagem_no_display(&display);
 
-            
         }
 
         sleep_ms(10); // Pequena pausa para evitar uso excessivo da CPU
