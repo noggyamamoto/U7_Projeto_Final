@@ -11,15 +11,14 @@
 #include "inc/ssd1306.h"
 #include "inc/ssd1306_i2c.h"
 
-
 // Definição dos pinos
 const uint BUZZER = 21;        // Pino do buzzer
 const uint PINO_BOTAO_B = 6;   // Pino do botão B
 const uint I2C_SDA = 14;       // Pino SDA
 const uint I2C_SCL = 15;       // Pino SCL
 
-// Variável global para sinalizar que o botão A foi pressionado
-volatile bool botao_a_pressionado = false;
+// Variável global para sinalizar que o botão B foi pressionado
+volatile bool botao_b_pressionado = false;
 
 // Função para tocar uma nota usando PWM
 void tocar_nota(uint pino_buzzer, int frequencia, int duracao) {
@@ -118,7 +117,6 @@ void exibir_imagem_no_display(ssd1306_t *display) {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
     };
 
-
     // Limpa o display (preenche o buffer com 0s)
     memset(display->ram_buffer + 1, 0, display->bufsize - 1);
 
@@ -146,13 +144,13 @@ void core1_entry() {
     }
 }
 
-// Função de interrupção para o botão A
-void botao_a_handler(uint gpio, uint32_t events) {
+// Função de interrupção para o botão B
+void botao_b_handler(uint gpio, uint32_t events) {
     static absolute_time_t last_time = 0;
     absolute_time_t now = get_absolute_time();
     if (absolute_time_diff_us(last_time, now) > 100000) { // Debounce de 100ms
         if (gpio == PINO_BOTAO_B) {
-            botao_a_pressionado = true;
+            botao_b_pressionado = true;
         }
         last_time = now;
     }
@@ -167,13 +165,13 @@ int main() {
     pwm_set_gpio_level(BUZZER, 0); // Configura o nível inicial do PWM
     pwm_set_enabled(num_slice, false); // Desabilita o PWM inicialmente
 
-    // Configurar o botão A e B como entrada com pull-up
+    // Configurar o botão B como entrada com pull-up
     gpio_init(PINO_BOTAO_B);
     gpio_set_dir(PINO_BOTAO_B, GPIO_IN);
     gpio_pull_up(PINO_BOTAO_B);
     
-    // Configurar a interrupção para o botão A
-    gpio_set_irq_enabled_with_callback(PINO_BOTAO_B, GPIO_IRQ_EDGE_FALL, true, &botao_a_handler);
+    // Configurar a interrupção para o botão B
+    gpio_set_irq_enabled_with_callback(PINO_BOTAO_B, GPIO_IRQ_EDGE_FALL, true, &botao_b_handler);
 
     // Inicialização do I2C para o display
     if (!i2c_init(i2c1, 400 * 1000)) {
@@ -195,9 +193,9 @@ int main() {
 
     // Laço principal (Core 0)
     while (true) {
-        // Verifica se o botão A foi pressionado
-        if (botao_a_pressionado) {
-            botao_a_pressionado = false; // Reseta a flag
+        // Verifica se o botão B foi pressionado
+        if (botao_b_pressionado) {
+            botao_b_pressionado = false; // Reseta a flag
 
             // Envia uma mensagem para o Core 1 para tocar a música
             multicore_fifo_push_blocking(1);
