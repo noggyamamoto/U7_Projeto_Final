@@ -1,10 +1,10 @@
 // Bibliotecas
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "pico/stdlib.h"
 #include "hardware/pwm.h"
 #include "hardware/clocks.h"
-#include <string.h>
-#include <stdlib.h>
 #include "pico/multicore.h"
 #include "hardware/i2c.h"
 #include "inc/notas.h"
