@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "hardware/pwm.h"
-#include "hardware/clocks.h" // Incluído para acessar clk_sys
+#include "hardware/clocks.h"
 #include "notas.h"
 #include <string.h>
 #include <stdlib.h>
